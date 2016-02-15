@@ -1,0 +1,9 @@
+---
+front:
+  build: .
+  volumes:
+    - "~/sites:/var/www/"
+    - "./config/etc/apache2/sites-available/:/etc/apache2/sites-enabled/"
+  ports:
+    - "80:80"
+    - "443:443"
