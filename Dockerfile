@@ -1,5 +1,5 @@
 FROM ubuntu:14.04.2
-MAINTAINER Allan MacGregor <amacgregor@demacmedia.com>
+MAINTAINER Thomas Slade <thomas@blueacorn.com>
 
 # Install the base packages we will need
 RUN apt-get update
