@@ -63,13 +63,13 @@ apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
 # Setup the PHPfpm services
-COPY config/etc/init /etc/init/
+#COPY config/etc/init /etc/init/
 COPY config/phpfarm/php-5.3.29/etc/php-fpm.conf /opt/phpfarm/inst/php-5.3.29/etc/
 COPY config/phpfarm/php-5.4.38/etc/php-fpm.conf /opt/phpfarm/inst/php-5.4.38/etc/
 COPY config/phpfarm/php-5.5.22/etc/php-fpm.conf /opt/phpfarm/inst/php-5.5.22/etc/
 COPY config/phpfarm/php-5.6.6/etc/php-fpm.conf  /opt/phpfarm/inst/php-5.6.6/etc/
 
-# Create the run scripts
+## Create the run scripts
 RUN mkdir -p /opt/scripts/
 ADD scripts/start-apache2.sh /opt/scripts/start-apache2.sh
 ADD scripts/start-phpfpm-5.3.29.sh /opt/scripts/start-phpfpm-5.3.29.sh
@@ -79,21 +79,10 @@ ADD scripts/start-phpfpm-5.6.6.sh /opt/scripts/start-phpfpm-5.6.6.sh
 
 # Apache configuration
 RUN a2enmod rewrite macro alias proxy proxy_fcgi
-RUN mkdir -p /etc/apache2/macros
 
 # Enable the configuration
 COPY config/etc/apache2/conf-available /etc/apache2/conf-available
 RUN a2enconf macros.conf
-
-# Copy the base macros and enable the configuration
-COPY config/etc/apache2/macros /etc/apache2/macros
-
-# Supervisord Configuration
-ADD config/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
-ADD config/supervisord-phpfpm5.3.conf /etc/supervisor/conf.d/supervisord-phpfpm5.3.conf
-ADD config/supervisord-phpfpm5.4.conf /etc/supervisor/conf.d/supervisord-phpfpm5.4.conf
-ADD config/supervisord-phpfpm5.5.conf /etc/supervisor/conf.d/supervisord-phpfpm5.5.conf
-ADD config/supervisord-phpfpm5.6.conf /etc/supervisor/conf.d/supervisord-phpfpm5.6.conf
 
 RUN chmod 755 /opt/scripts/*.sh
 ADD run.sh /run.sh

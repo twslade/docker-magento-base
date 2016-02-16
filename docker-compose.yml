@@ -4,6 +4,9 @@ front:
   volumes:
     - "~/sites:/var/www/"
     - "./config/etc/apache2/sites-available/:/etc/apache2/sites-enabled/"
+    - "./config/etc/apache2/macros/:/etc/apache2/macros/"
+    - "./config/supervisor/:/etc/supervisor/conf.d/"
+    - "./config/etc/init:/etc/init/"
   ports:
     - "80:80"
     - "443:443"

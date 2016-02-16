@@ -9,8 +9,8 @@
 	  ProxySet timeout=1800
 	</Proxy>
 
-	ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9004/srv/www/$dir/public_html/$1
-	DocumentRoot /srv/www/$dir/public_html
+	ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9004/var/www/$dir/$1
+	DocumentRoot /var/www/$dir/
 
 	<Directory />
   	Options FollowSymLinks
@@ -20,7 +20,7 @@
 		Allow from all
   </Directory>
 
-  <Directory /srv/www/$dir/public_html>
+  <Directory /srv/www/$dir/>
   	AllowOverride All
     Require all granted
 		Order allow,deny
