@@ -88,6 +88,15 @@ RUN a2enmod rewrite macro alias proxy proxy_fcgi
 COPY config/etc/apache2/conf-available /etc/apache2/conf-available
 RUN a2enconf macros.conf
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Box
+RUN curl -LSs https://box-project.github.io/box2/installer.php | php && mv box.phar /usr/local/bin/
+
+# Install N98
+RUN wget https://files.magerun.net/n98-magerun.phar && chmod +x ./n98-magerun.phar && mv ./n98-magerun.phar /usr/local/bin/
+
 RUN chmod 755 /opt/scripts/*.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
