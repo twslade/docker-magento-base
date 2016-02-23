@@ -44,7 +44,11 @@ RUN apt-get install -y \
     mysql-client-5.6 \
     apache2 \
     apache2-mpm-prefork \
+    php5-cli \
+    php5-curl \
     libapache2-mod-fcgid
+
+RUN echo "memory_limit = 512M" >> /etc/php5/cli/php.ini
 
 # Download a copy of cweiske/phpfarm repo
 RUN git clone git://github.com/amacgregor/phpfarm.git /opt/phpfarm
