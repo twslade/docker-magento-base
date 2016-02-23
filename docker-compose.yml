@@ -3,6 +3,7 @@ front:
   build: .
   volumes:
     - "~/sites:/var/www/"
+    - "~/applications:/applications"
     - "./config/etc/apache2/sites-available/:/etc/apache2/sites-enabled/"
     - "./config/etc/apache2/macros/:/etc/apache2/macros/"
     - "./config/supervisor/:/etc/supervisor/conf.d/"
@@ -10,3 +11,16 @@ front:
   ports:
     - "80:80"
     - "443:443"
+  links:
+    - "mysql:mysql"
+
+mysql:
+  image: "mysql:5.6"
+  volumes:
+    - "/var/lib/mysql"
+  expose:
+    - "3306"
+  ports:
+    - "3307:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: 123123
