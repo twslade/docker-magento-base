@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.2
+FROM phusion/baseimage
 MAINTAINER Thomas Slade <thomas@blueacorn.com>
 
 # Install the base packages we will need
