@@ -50,8 +50,6 @@ RUN apt-get install -y \
 
 RUN apt-get install -y php5-gd php5-mcrypt php5-mysql
 
-RUN echo "memory_limit = 512M" >> /etc/php5/cli/php.ini
-
 RUN ln -s /etc/php5/mods-available/mcrypt.ini /etc/php5/cli/conf.d/20-mcrypt.ini
 
 # Download a copy of cweiske/phpfarm repo
@@ -109,6 +107,8 @@ RUN curl -Lfo /usr/bin/modman \
 # Get copy of custom n98-magerun.yaml
 RUN wget https://raw.githubusercontent.com/BlueAcornInc/bootstrap/master/tools/n98-magerun/n98-magerun.yaml?token=ABU8AxLTslgiQxa8Q9okK6hOrjxP-NrKks5W1wtpwA%3D%3D -O n98-magerun.yaml \
     && mv n98-magerun.yaml /etc/
+
+RUN echo "memory_limit = 1024M" >> /etc/php5/cli/php.ini
 
 RUN chmod 755 /opt/scripts/*.sh
 
