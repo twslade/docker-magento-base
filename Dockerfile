@@ -111,6 +111,10 @@ RUN wget https://raw.githubusercontent.com/BlueAcornInc/bootstrap/master/tools/n
     && mv n98-magerun.yaml /etc/
 
 RUN chmod 755 /opt/scripts/*.sh
+
+ADD ./id_rsa /root/.ssh/id_rsa
+RUN touch /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts
+
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 CMD ["/run.sh"]
