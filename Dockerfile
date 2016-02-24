@@ -101,6 +101,15 @@ RUN curl -LSs https://box-project.github.io/box2/installer.php | php && mv box.p
 # Install N98
 RUN wget https://files.magerun.net/n98-magerun.phar && chmod +x ./n98-magerun.phar && mv ./n98-magerun.phar /usr/local/bin/
 
+# Install Modman
+RUN curl -Lfo /usr/bin/modman \
+  https://raw.githubusercontent.com/colinmollenhour/modman/master/modman \
+  && chmod +x /usr/bin/modman
+
+# Get copy of custom n98-magerun.yaml
+RUN wget https://raw.githubusercontent.com/BlueAcornInc/bootstrap/master/tools/n98-magerun/n98-magerun.yaml?token=ABU8AxLTslgiQxa8Q9okK6hOrjxP-NrKks5W1wtpwA%3D%3D -O n98-magerun.yaml \
+    && mv n98-magerun.yaml /etc/
+
 RUN chmod 755 /opt/scripts/*.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
