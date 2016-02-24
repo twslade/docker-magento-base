@@ -48,7 +48,11 @@ RUN apt-get install -y \
     php5-curl \
     libapache2-mod-fcgid
 
+RUN apt-get install -y php5-gd php5-mcrypt php5-mysql
+
 RUN echo "memory_limit = 512M" >> /etc/php5/cli/php.ini
+
+RUN ln -s /etc/php5/mods-available/mcrypt.ini /etc/php5/cli/conf.d/20-mcrypt.ini
 
 # Download a copy of cweiske/phpfarm repo
 RUN git clone git://github.com/amacgregor/phpfarm.git /opt/phpfarm
