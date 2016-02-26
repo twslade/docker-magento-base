@@ -114,6 +114,56 @@ RUN chmod 755 /opt/scripts/*.sh
 ADD ./id_rsa /root/.ssh/id_rsa
 RUN touch /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts
 
+# Xdebug for 5.6.6
+RUN wget http://xdebug.org/files/xdebug-2.4.0rc4.tgz \
+    && tar -xvf xdebug-2.4.0rc4.tgz \
+    && cd /xdebug-2.4.0RC4 \
+    && /opt/phpfarm/inst/bin/phpize-5.6.6 \
+    && ./configure --with-php-config=/opt/phpfarm/inst/bin/php-config-5.6.6 \
+    && make \
+    && make install \
+    && cp modules/xdebug.so /opt/phpfarm/inst/php-5.6.6/lib/php/20131226 \
+    && echo "zend_extension = /opt/phpfarm/inst/php-5.6.6/lib/php/20131226/xdebug.so" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "xdebug.remote_enable=on" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_autostart=off" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && rm -rf /xdebug-2.4.0RC4
+
+# Xdebug for 5.5.22
+RUN tar -xvf xdebug-2.4.0rc4.tgz \
+    && cd /xdebug-2.4.0RC4 \
+    && /opt/phpfarm/inst/bin/phpize-5.5.22 \
+    && ./configure --with-php-config=/opt/phpfarm/inst/bin/php-config-5.5.22 \
+    && make \
+    && make install \
+    && cp modules/xdebug.so /opt/phpfarm/inst/php-5.5.22/lib/php/20121212 \
+    && echo "zend_extension = /opt/phpfarm/inst/php-5.5.22/lib/php/20121212/xdebug.so" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_enable=on" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_autostart=off" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && rm -rf /xdebug-2.4.0RC4
+
+# Xdebug for 5.4.38
+RUN tar -xvf xdebug-2.4.0rc4.tgz \
+    && cd /xdebug-2.4.0RC4 \
+    && /opt/phpfarm/inst/bin/phpize-5.4.38 \
+    && ./configure --with-php-config=/opt/phpfarm/inst/bin/php-config-5.4.38 \
+    && make \
+    && make install \
+    && cp modules/xdebug.so /opt/phpfarm/inst/php-5.4.38/lib/php/20100525 \
+    && echo "zend_extension = /opt/phpfarm/inst/php-5.4.38/lib/php/20100525/xdebug.so" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
+    && echo "xdebug.remote_enable=on" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_autostart=off" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && rm -rf /xdebug-2.4.0RC4
+
+
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 CMD ["/run.sh"]
