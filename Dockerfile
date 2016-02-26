@@ -64,7 +64,6 @@ RUN cd /opt/phpfarm/src && \
 ./compile.sh 5.4.38 && \
 ./compile.sh 5.5.22 && \
 ./compile.sh 5.6.6 && \
-rm -rf /opt/phpfarm/src && \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
