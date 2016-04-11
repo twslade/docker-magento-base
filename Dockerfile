@@ -1,10 +1,15 @@
 FROM phusion/baseimage
 MAINTAINER Thomas Slade <thomas@blueacorn.com>
 
-# Install the base packages we will need
+RUN locale-gen en_US.UTF-8
+ENV LANG       en_US.UTF-8
+ENV LC_ALL     en_US.UTF-8
+
 RUN apt-get update
+RUN add-apt-repository ppa:ondrej/php5-5.6
 RUN apt-get install -y \
     wget \
+    libicu-dev \
     htop \
     curl \
     build-essential \
@@ -41,11 +46,14 @@ RUN apt-get install -y \
     libltdl-dev \
     libmhash-dev \
     libmysqlclient-dev \
+    libxslt1-dev \
     mysql-client-5.6 \
     apache2 \
     apache2-mpm-prefork \
     php5-cli \
     php5-curl \
+    php5-intl \
+    php5-xsl \
     libapache2-mod-fcgid
 
 RUN apt-get install -y php5-gd php5-mcrypt php5-mysql
@@ -104,7 +112,7 @@ RUN curl -Lfo /usr/bin/modman \
   && chmod +x /usr/bin/modman
 
 # Get copy of custom n98-magerun.yaml
-RUN wget https://raw.githubusercontent.com/BlueAcornInc/bootstrap/master/tools/n98-magerun/n98-magerun.yaml?token=ABU8AxLTslgiQxa8Q9okK6hOrjxP-NrKks5W1wtpwA%3D%3D -O n98-magerun.yaml \
+RUN wget https://raw.githubusercontent.com/BlueAcornInc/bootstrap/master/tools/n98-magerun/n98-magerun.yaml?token=ABU8AwUtIJ4lKuhs2p52f0vq3Kywlxx5ks5XERxvwA%3D%3D -O n98-magerun.yaml \
     && mv n98-magerun.yaml /etc/
 
 RUN echo "memory_limit = 1024M" >> /etc/php5/cli/php.ini
@@ -163,6 +171,21 @@ RUN tar -xvf xdebug-2.4.0rc4.tgz \
     && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
     && rm -rf /xdebug-2.4.0RC4
 
+RUN wget https://pecl.php.net/get/intl-3.0.0.tgz \
+    && tar -xvf intl-3.0.0.tgz \
+    && cd /intl-3.0.0 \
+    && /opt/phpfarm/inst/bin/phpize-5.6.6 \
+    && ./configure --with-php-config=/opt/phpfarm/inst/bin/php-config-5.6.6 \
+    && make \
+    && make install \
+    && echo "extension=intl.so" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "always_populate_raw_post_data = -1"  >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "extension=/usr/lib/php5/20131226/xsl.so" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && rm -rf /intl-3.0.0
+
+
+RUN apt-get update
+RUN apt-get install -y php5
 
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
