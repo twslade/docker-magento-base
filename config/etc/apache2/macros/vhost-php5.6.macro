@@ -20,7 +20,7 @@
 		Allow from all
   </Directory>
 
-  <Directory /srv/www/$dir/>
+  <Directory /var/www/$dir/>
   	AllowOverride All
     Require all granted
 		Order allow,deny
