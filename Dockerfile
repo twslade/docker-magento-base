@@ -132,11 +132,12 @@ RUN wget http://xdebug.org/files/xdebug-2.4.0rc4.tgz \
     && make install \
     && cp modules/xdebug.so /opt/phpfarm/inst/php-5.6.6/lib/php/20131226 \
     && echo "zend_extension = /opt/phpfarm/inst/php-5.6.6/lib/php/20131226/xdebug.so" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
-    && echo "xdebug.remote_enable=on" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_autostart=off" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_enable=on" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "xdebug.remote_autostart=off" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
+    && echo "xdebug.remote_host=172.16.4.213" >> /opt/phpfarm/inst/php-5.6.6/etc/php.ini \
     && rm -rf /xdebug-2.4.0RC4
 
 # Xdebug for 5.5.22
@@ -153,6 +154,7 @@ RUN tar -xvf xdebug-2.4.0rc4.tgz \
     && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
     && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
     && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_host=172.16.4.213" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
     && rm -rf /xdebug-2.4.0RC4
 
 # Xdebug for 5.4.38
@@ -164,13 +166,15 @@ RUN tar -xvf xdebug-2.4.0rc4.tgz \
     && make install \
     && cp modules/xdebug.so /opt/phpfarm/inst/php-5.4.38/lib/php/20100525 \
     && echo "zend_extension = /opt/phpfarm/inst/php-5.4.38/lib/php/20100525/xdebug.so" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
-    && echo "xdebug.remote_enable=on" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_autostart=off" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
-    && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.5.22/etc/php.ini \
+    && echo "xdebug.remote_enable=on" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
+    && echo "xdebug.remote_autostart=off" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
+    && echo "xdebug.remote_port=9000" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
+    && echo "xdebug.remote_connect_back=On" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
+    && echo "xdebug.remote_handler=dbgp" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
+    && echo "xdebug.remote_host=172.16.4.213" >> /opt/phpfarm/inst/php-5.4.38/etc/php.ini \
     && rm -rf /xdebug-2.4.0RC4
 
+# Intl / XSL / Settings for 5.6.6 //M2
 RUN wget https://pecl.php.net/get/intl-3.0.0.tgz \
     && tar -xvf intl-3.0.0.tgz \
     && cd /intl-3.0.0 \
@@ -185,7 +189,16 @@ RUN wget https://pecl.php.net/get/intl-3.0.0.tgz \
 
 
 RUN apt-get update
+
 RUN apt-get install -y php5
+
+# Install N98
+RUN wget https://files.magerun.net/n98-magerun2.phar && chmod +x ./n98-magerun2.phar && mv ./n98-magerun2.phar /usr/local/bin/
+
+
+#RUN curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+#RUN apt-get install -y nodejs npm
+#RUN npm install -g grunt-cli
 
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
